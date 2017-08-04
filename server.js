@@ -15,7 +15,7 @@ app.use(function(req, res, next) {
 app.use(express.static('public'));
 
 app.get('*', function(request, response, next) {
-    response.sendfile(__dirname + '/public/index.html');
+    response.sendFile(__dirname + '/public/index.html');
 });
 
 app.listen(PORT, function() {

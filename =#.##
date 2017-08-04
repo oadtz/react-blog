@@ -1,0 +1,18 @@
+react-blog@1.0.0 /Users/oadtz/Desktop/react-blog
+├── moment@2.18.1 
+├── react@15.6.1 
+├── react-addons-shallow-compare@15.6.0 
+├─┬ react-dates@12.3.0 
+│ ├─┬ airbnb-prop-types@2.8.0 
+│ │ ├── array.prototype.find@2.0.4 
+│ │ ├── function.prototype.name@1.0.3 
+│ │ └── prop-types-exact@1.1.1 
+│ ├── classnames@2.2.5 
+│ ├── consolidated-events@1.1.0 
+│ ├── is-touch-device@1.0.1 
+│ ├── object.assign@4.0.4 
+│ ├── object.values@1.0.4 
+│ ├── react-moment-proptypes@1.5.0 
+│ └── react-portal@3.1.0 
+└── react-dom@15.6.1 
+

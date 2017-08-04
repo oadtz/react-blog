@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
 class PostList extends Component {
+    componentWillUpdate () {
+        console.log ('xxxx');
+    }
+
     handleSortChange (e) {
         const sortBy = e.target.value;
 
