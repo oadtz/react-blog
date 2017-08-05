@@ -1,23 +1,38 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {observer} from 'mobx-react';
+import {extendObservable} from 'mobx';
 
 import MainLayout from 'MainLayout';
 import PostForm from 'PostForm';
+import BlockUI from 'BlockUI';
 
 import postAPI from 'postAPI';
 
 class PostCreate extends Component {
+    constructor (props) {
+        super (props);
+
+        extendObservable(this, {
+            loading: false
+        });
+    }
+
     handleCreate (post) {
+        this.loading = true;
+
         postAPI.store(post)
                .then(this.onSuccess.bind(this), this.onFail.bind(this));
     }
 
     onSuccess (post) {
+        this.loading = false;
         // Redirect to post view
         this.props.history.replace (`/post/${post.id}`);
     }
 
     onFail (error) {
+        this.loading = false;
         alert ('Save failed. Please try again');
         console.error (error);
     }
@@ -36,10 +51,12 @@ class PostCreate extends Component {
                         </div>
                     </div>
                 </header>
-                <PostForm onSave={this.handleCreate.bind(this)} />
+                <BlockUI scope="div" loading={this.loading}>
+                    <PostForm onSave={this.handleCreate.bind(this)} />
+                </BlockUI>
             </MainLayout>
         );
     }
 };
 
-export default withRouter(PostCreate);
+export default withRouter(observer(PostCreate));

@@ -16,7 +16,8 @@ class Home extends Component {
 
         extendObservable(this, {
             posts: [],
-            sort: queryString.parse(location.search).sort || 'date:-1'
+            sort: queryString.parse(location.search).sort || 'date:-1',
+            loading: false
         });
 
         // Get all posts
@@ -34,17 +35,20 @@ class Home extends Component {
     getPosts () {
         const {location} = this.props;
         const params = queryString.parse(location.search); // Get post params from URL
-
+        
+        this.loading = true;
         postAPI.query(params.sort)
                .then(this.onGetPostsSuccess.bind(this), this.onGetPostsFail.bind(this));
     }
 
     onGetPostsSuccess (posts) {
         this.posts = posts;
+        this.loading = false;
     }
 
     onGetPostsFail (error) {
         console.error (error);
+        this.loading = false;
     }
 
     onDeletePostSuccess () {
@@ -92,7 +96,9 @@ class Home extends Component {
                     </div>
                     <div className="row">
                         <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                            <PostList posts={this.posts} />
+                            <BlockUI scope="div" loading={this.loading}>
+                                <PostList posts={this.posts} />
+                            </BlockUI>
                         </div>
                     </div>
                 </div>

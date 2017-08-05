@@ -34,7 +34,7 @@ class PostActions extends Component {
         return (
             <div className="post-actions">
                 <button type="button" onClick={this.handleEditPostClick.bind(this, id)} className="btn btn-xs btn-info"><i className="fa fa-edit"></i> Edit</button>
-                <button type="button" onClick={this.handleDeletePostClick.bind(this, id)} className="btn btn-xs"><i className="fa fa-trash"></i> Delete</button>
+                <button type="button" onClick={this.handleDeletePostClick.bind(this, id)} className="btn btn-xs btn-default"><i className="fa fa-trash"></i> Delete</button>
             </div>
         );
     }

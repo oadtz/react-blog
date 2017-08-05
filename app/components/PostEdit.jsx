@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 
 import MainLayout from 'MainLayout';
 import PostForm from 'PostForm';
+import BlockUI from 'BlockUI';
 
 import postAPI from 'postAPI';
 
@@ -13,7 +14,8 @@ class PostEdit extends Component {
         super (props);
 
         extendObservable(this, {
-            post: {}
+            post: {},
+            loading: false
         });
 
         // Get post from postid
@@ -21,31 +23,39 @@ class PostEdit extends Component {
     }
 
     getPost (id) {
+        this.loading = true;
+
         postAPI.get(id)
                .then(this.onGetPostSuccess.bind(this), this.onGetPostFail.bind(this));
     }
 
     onGetPostSuccess (post) {
+        this.loading = false;
         this.post = post;
     }
 
     onGetPostFail (error) {
+        this.loading = false;
         alert ('Load post failed. Redirecting to home');
         console.error(error);
         this.props.history.replace ('/');
     }
 
     handleSave (post) {
+        this.loading = true;
+
         postAPI.update(post)
                .then(this.onSuccess.bind(this), this.onFail.bind(this));
     }
 
     onSuccess (post) {
+        this.loading = false;
         // Redirect to post view
         this.props.history.replace (`/post/${post.id}`);
     }
 
     onFail (error) {
+        this.loading = false;
         alert ('Save failed. Please try again');
         console.error (error);
     }
@@ -63,7 +73,9 @@ class PostEdit extends Component {
                         </div>
                     </div>
                 </header>
-                <PostForm post={this.post} onSave={this.handleSave.bind(this)} />
+                <BlockUI scope="div" loading={this.loading}>
+                    <PostForm post={this.post} onSave={this.handleSave.bind(this)} />
+                </BlockUI>
             </MainLayout>
         );
     }
