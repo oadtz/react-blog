@@ -6,6 +6,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 import MainLayout from 'MainLayout';
 import PostList from 'PostList';
+import BlockUI from 'BlockUI';
 
 import postAPI from 'postAPI';
 
