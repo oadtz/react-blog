@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 
-import SiteHeader from 'SiteNav';
+import SiteNav from 'SiteNav';
 
 describe('SiteNav', () => {
   it('should exist', () => {

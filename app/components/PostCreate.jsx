@@ -1,9 +1,27 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 
 import MainLayout from 'MainLayout';
 import PostForm from 'PostForm';
 
+import postAPI from 'postAPI';
+
 class PostCreate extends Component {
+    handleCreate (post) {
+        postAPI.store(post)
+               .then(this.onSuccess.bind(this), this.onFail.bind(this));
+    }
+
+    onSuccess (post) {
+        // Redirect to post view
+        this.props.history.replace (`/post/${post.id}`);
+    }
+
+    onFail (error) {
+        alert ('Save failed. Please try again');
+        console.error (error);
+    }
+
     render () {
         return (
             <MainLayout>
@@ -18,10 +36,10 @@ class PostCreate extends Component {
                         </div>
                     </div>
                 </header>
-                <PostForm />
+                <PostForm onSave={this.handleCreate.bind(this)} />
             </MainLayout>
         );
     }
 };
 
-export default PostCreate;
+export default withRouter(PostCreate);
