@@ -1,14 +1,12 @@
-import firebase, { firebaseDB } from '../config/firebase';
+import firebase, { firebaseDB } from '../utils/firebase';
+import session from '../utils/session';
 
 var postAPI = {
 
     // Get all posts
-    query: (sort = 'date:-1') => {
-        var key = sort.split(':')[0];
-        var dir = sort.split(':')[1] || 1;
-
+    query: () => {
         return new Promise((resolve, reject) => {
-            var postRef = firebaseDB.child('posts/').orderByChild(key).startAt(!null);
+            var postRef = firebaseDB.child('posts/');
 
             postRef.once('value', data => {
                 var posts = [];
@@ -19,9 +17,6 @@ var postAPI = {
                         id: post.key
                     });
                 });
-
-                if (parseInt(dir) === -1) // Reverse if desc
-                    posts.reverse();
 
                 resolve(posts);
             }, (error) => {

@@ -9,6 +9,7 @@ import PostList from 'PostList';
 import BlockUI from 'BlockUI';
 
 import postAPI from 'postAPI';
+import session from '../utils/session';
 
 class Home extends Component {
     constructor (props) {
@@ -16,22 +17,14 @@ class Home extends Component {
 
         extendObservable(this, {
             posts: [],
-            sort: queryString.parse(location.search).sort || 'date:-1',
+            sort: session.get('posts_sort') || 'date:-1',
             loading: false
         });
 
         // Get all posts
         this.getPosts ();
     }
-
-    componentDidUpdate () {
-        if (this.sort !== queryString.parse(location.search).sort) {
-            this.sort = queryString.parse(location.search).sort;
-            
-            this.getPosts ();
-        }
-    }
-
+    
     getPosts () {
         const {location} = this.props;
         const params = queryString.parse(location.search); // Get post params from URL
@@ -42,8 +35,32 @@ class Home extends Component {
     }
 
     onGetPostsSuccess (posts) {
-        this.posts = posts;
+        const key = this.sort.split(':')[0];
+        const dir = this.sort.split(':')[1] || 1;
+
         this.loading = false;
+
+        posts.sort ((a, b) => {
+            if (key === 'title') {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                    return -1;
+                }
+
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                    return 1;
+                }
+                
+                return 0;
+            }
+            
+            return a[key] - b[key];
+        });
+        
+        if (parseInt(dir) === -1) {
+            posts.reverse();
+        }
+
+        this.posts = posts;
     }
 
     onGetPostsFail (error) {
@@ -56,10 +73,12 @@ class Home extends Component {
     }
 
     handleSortChange (e) {
-        const sortBy = e.target.value;
-        const {history} = this.props;
+        const sort = e.target.value;
+        
+        this.sort = sort;
+        session.set('posts_sort', sort);
 
-        history.push(`/?sort=${sortBy}`);
+        this.getPosts ();
     }
 
     render () {
