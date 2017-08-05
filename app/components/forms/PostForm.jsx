@@ -64,6 +64,10 @@ class PostForm extends Component {
         this.props.onSave(this.post);
     }
 
+    handleContentChange(content) {
+        this.post.content = content;
+    }
+
     handleCancel () {
         // Go back to previous screen
         this.props.history.go(-1);
@@ -106,7 +110,7 @@ class PostForm extends Component {
                                     </label>
                                     <ReactQuill 
                                         value={this.post.content}
-                                        onChange={content => this.post.content = content}
+                                        onChange={this.handleContentChange.bind(this)}
                                         style={{height: '250px'}}
                                         modules={{
                                             toolbar: [
