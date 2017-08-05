@@ -6,22 +6,30 @@ var postAPI = {
     // Get all posts
     query: () => {
         return new Promise((resolve, reject) => {
-            var postRef = firebaseDB.child('posts/');
+            var posts = session.get('posts');
 
-            postRef.once('value', data => {
-                var posts = [];
-
-                data.forEach(post => {
-                    posts.push({
-                        ...post.val(),
-                        id: post.key
-                    });
-                });
-
+            if (posts) {
                 resolve(posts);
-            }, (error) => {
-                reject(error)
-            });
+            } else {
+                var postRef = firebaseDB.child('posts/');
+
+                postRef.on('value', data => {
+
+                    posts = [];
+                    data.forEach(post => {
+                        posts.push({
+                            ...post.val(),
+                            id: post.key
+                        });
+                    });
+
+                    session.set('posts', posts);
+
+                    resolve(posts);
+                }, (error) => {
+                    reject(error)
+                });
+            }
         });
     },
 

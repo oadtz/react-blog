@@ -21,7 +21,7 @@ class Home extends Component {
             loading: false
         });
 
-        // Get all posts
+        // Get all posts from firebase when first load this page
         this.getPosts ();
     }
     

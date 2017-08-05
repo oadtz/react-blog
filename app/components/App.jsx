@@ -5,6 +5,10 @@ import PostCreate from 'PostCreate';
 import PostView from 'PostView';
 import PostEdit from 'PostEdit';
 import Home from 'Home';
+import session from '../utils/session';
+
+// Clear cached of posts when load the app
+session.remove ('posts');
 
 class App extends Component {
     render () {
