@@ -26,7 +26,7 @@ class PostForm extends Component {
     }
 
     componentWillReceiveProps (props) {
-        if (props.post) {
+        if (props.post.date) {
             this.post = {
                 ...props.post,
                 date: moment.unix(props.post.date)
@@ -64,13 +64,13 @@ class PostForm extends Component {
         this.props.onSave(this.post);
     }
 
-    handleContentChange(content) {
-        this.post.content = content;
-    }
-
     handleCancel () {
         // Go back to previous screen
         this.props.history.go(-1);
+    }
+
+    handleContentChange (content) {
+        this.post.content = content;
     }
 
     render () {
@@ -84,7 +84,7 @@ class PostForm extends Component {
                                     <label>
                                         Title {this.errors.title && <small className="text-danger">({this.errors.title})</small>}
                                     </label>
-                                    <input type="text" className="form-control" value={this.post.title} onChange={e => this.post.title = e.target.value} maxLength="64" />
+                                    <input type="text" className="form-control" value={this.post.title} onChange={e => {this.post.title = e.target.value}} maxLength="64" />
                                     <p className="help-block text-danger"></p>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@ class PostForm extends Component {
                                     <DatePicker
                                         className="form-control"
                                         selected={this.post.date}
-                                        onChange={date => this.post.date = date}
+                                        onChange={date => {this.post.date = date}}
                                         minDate={moment()}
                                         readOnly={true}
                                         />
