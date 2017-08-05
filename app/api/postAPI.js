@@ -36,20 +36,32 @@ var postAPI = {
     // Get a post by ID
     get: (id) => {
         return new Promise((resolve, reject) => {
-            var postRef = firebaseDB.child('posts').child(id);
+            var posts = session.get('posts');
 
-            postRef.once('value', data => {
-                var post = data.val();
-                if (post !== null)
-                    resolve({
-                        ...post,
-                        id: postRef.key
-                    });
+            if (posts) {
+                var post = posts.find(post => post.id === id);
+
+                if (post)
+                    resolve(post);
                 else
                     reject('Post not found');
-            }, (error) => {
-                reject(error);
-            });
+            } else {
+                var postRef = firebaseDB.child('posts').child(id);
+
+                postRef.once('value', data => {
+                    var post = data.val();
+                    if (post !== null)
+                        resolve({
+                            ...post,
+                            id: postRef.key
+                        });
+                    else
+                        reject('Post not found');
+                }, (error) => {
+                    reject(error);
+                });
+            }
+
         });
     },
 
