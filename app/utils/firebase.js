@@ -10,7 +10,7 @@ try {
 
     firebase.initializeApp(config);
 } catch (e) {
-
+    window.location.href = '/error';
 }
 
 export var firebaseDB = firebase.database().ref();

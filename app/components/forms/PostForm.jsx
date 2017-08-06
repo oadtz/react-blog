@@ -26,7 +26,7 @@ class PostForm extends Component {
     }
 
     componentWillReceiveProps (props) {
-        if (props.post.date) {
+        if (props.post && props.post.date) {
             this.post = {
                 ...props.post,
                 date: moment.unix(props.post.date)

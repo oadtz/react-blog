@@ -24,7 +24,7 @@ class Home extends Component {
         // Get all posts from firebase when first load this page
         this.getPosts ();
     }
-    
+
     getPosts () {
         const {location} = this.props;
         const params = queryString.parse(location.search); // Get post params from URL
@@ -66,9 +66,10 @@ class Home extends Component {
     onGetPostsFail (error) {
         console.error (error);
         this.loading = false;
+        this.props.history.push ('/error');
     }
 
-    onDeletePostSuccess () {
+    handleDeletePostSuccess () {
         this.getPosts();
     }
 
@@ -116,7 +117,7 @@ class Home extends Component {
                     <div className="row">
                         <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                             <BlockUI scope="div" loading={this.loading}>
-                                <PostList posts={this.posts} />
+                                <PostList posts={this.posts} onDeleteSuccess={this.handleDeletePostSuccess.bind(this)} />
                             </BlockUI>
                         </div>
                     </div>

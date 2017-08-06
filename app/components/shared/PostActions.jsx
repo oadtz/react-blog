@@ -21,7 +21,6 @@ class PostActions extends Component {
     }
 
     onDeleteFail (error) {
-        alert ('Delete failed. Please try again later');
         console.error (error);
 
         if (this.props.onDeleteFail)

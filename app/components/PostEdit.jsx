@@ -35,10 +35,9 @@ class PostEdit extends Component {
     }
 
     onGetPostFail (error) {
-        this.loading = false;
-        alert ('Load post failed. Redirecting to home');
         console.error(error);
-        this.props.history.replace ('/');
+        this.loading = false;
+        this.props.history.push ('/error');
     }
 
     handleSave (post) {
@@ -55,9 +54,9 @@ class PostEdit extends Component {
     }
 
     onFail (error) {
-        this.loading = false;
-        alert ('Save failed. Please try again');
         console.error (error);
+        this.loading = false;
+        this.props.history.push ('/error');
     }
     render () {
         return (

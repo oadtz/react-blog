@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 
+import PostActions from 'PostActions';
+
 class PostList extends Component {
+    handleDeleteSuccess () {
+        if (this.props.onDeleteSuccess)
+            this.props.onDeleteSuccess();
+    }
+
     render () {
         const {posts} = this.props;
         var postList = posts.map(post => {
@@ -15,6 +23,7 @@ class PostList extends Component {
                             </h2>
                         </Link>
                         <p className="post-meta">Posted on {moment.unix(post.date).format('MMMM Do, YYYY')}</p>
+                        <PostActions id={post.id} onDeleteSuccess={this.handleDeleteSuccess.bind(this)} />
                     </div>
                     <hr/>
                 </div>
@@ -27,6 +36,10 @@ class PostList extends Component {
             </div>
         );
     }
+};
+
+PostList.propTypes = {
+    onDeleteSuccess: PropTypes.func
 };
 
 export default PostList;

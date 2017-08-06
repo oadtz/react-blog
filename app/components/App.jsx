@@ -5,6 +5,8 @@ import PostCreate from 'PostCreate';
 import PostView from 'PostView';
 import PostEdit from 'PostEdit';
 import Home from 'Home';
+import Error from 'Error';
+
 import session from '../utils/session';
 
 // Clear cached of posts when load the app
@@ -18,7 +20,8 @@ class App extends Component {
                     <Route exact path="/post/new" component={PostCreate} />
                     <Route exact path="/post/:post" component={PostView} />
                     <Route exact path="/post/:post/edit" component={PostEdit} />
-                    <Route component={Home} />
+                    <Route exact path="/" component={Home} />
+                    <Route component={Error} />
                 </Switch>
             </Router>
         );

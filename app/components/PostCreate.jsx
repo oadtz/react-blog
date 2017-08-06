@@ -32,9 +32,9 @@ class PostCreate extends Component {
     }
 
     onFail (error) {
-        this.loading = false;
-        alert ('Save failed. Please try again');
         console.error (error);
+        this.loading = false;
+        this.props.history.push ('/error');
     }
 
     render () {

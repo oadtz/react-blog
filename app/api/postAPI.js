@@ -11,7 +11,7 @@ var postAPI = {
             if (posts) {
                 resolve(posts);
             } else {
-                var postRef = firebaseDB.child('posts/');
+                var postRef = firebaseDB.child('posts');
 
                 postRef.on('value', data => {
 

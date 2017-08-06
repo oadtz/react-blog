@@ -41,10 +41,9 @@ class PostView extends Component {
     }
 
     onGetPostFail (error) {
-        this.loading = false;
-        alert ('Load post failed. Redirecting to home');
         console.error(error);
-        this.props.history.replace ('/');
+        this.loading = false;
+        this.props.history.push ('/error');
     }
 
     render () {
